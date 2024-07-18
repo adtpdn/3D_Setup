@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://ca442hfoyjqgy"]
+
+[ext_resource type="Shader" path="res://shaders/SketchyOutline.gdshader" id="1_33yop"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g4mqj"]
+render_priority = 0
+shader = ExtResource("1_33yop")
+shader_parameter/outline_color = null
+shader_parameter/scissor_value = 0.5
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/outline_size = 0.1
+shader_parameter/offset_fres = 0.3
+shader_parameter/fps = 10.0
+
+[resource]
+next_pass = SubResource("ShaderMaterial_g4mqj")
+blend_mode = 1

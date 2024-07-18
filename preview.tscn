@@ -1,0 +1,670 @@
+[gd_scene load_steps=59 format=3 uid="uid://ceoy68anxkjuc"]
+
+[ext_resource type="Material" uid="uid://ca442hfoyjqgy" path="res://shaders/cylinder_mat.tres" id="1_glcsh"]
+[ext_resource type="Script" path="res://root.gd" id="1_vgx4h"]
+[ext_resource type="Shader" path="res://shaders/SketchyOutline.gdshader" id="3_0xsqp"]
+[ext_resource type="Script" path="res://Cylinder.gd" id="3_bex6q"]
+[ext_resource type="ArrayMesh" uid="uid://dyl1syrupqb46" path="res://untitled.obj" id="4_f7v55"]
+[ext_resource type="ArrayMesh" uid="uid://dpl66kvhoat54" path="res://beveled_object_smoothed.obj" id="5_00yls"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_o0pe8"]
+[ext_resource type="Texture2D" uid="uid://d0v4s5xuqetvc" path="res://shaders/Group 62.png" id="6_pthky"]
+[ext_resource type="Texture2D" uid="uid://c1w2t0dnle0ek" path="res://shaders/dust_brust.png" id="7_hmdrd"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="7_ji3kg"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="8_ohgup"]
+[ext_resource type="ArrayMesh" uid="uid://yxweatpgchg4" path="res://mesh.res" id="8_qw1eo"]
+[ext_resource type="Animation" uid="uid://beggrqqixadws" path="res://Idle_01.res" id="9_0cdoe"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="9_vhawd"]
+[ext_resource type="Animation" uid="uid://cmff56fyd8oel" path="res://Idle_02.res" id="10_87nd6"]
+[ext_resource type="Animation" uid="uid://b81ga08srq83x" path="res://Rollup.res" id="11_xgb1m"]
+[ext_resource type="Animation" uid="uid://bi12s2boehnkq" path="res://Running.res" id="12_c1wh6"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_oitjt"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pfp5d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2l8gk"]
+render_priority = 0
+shader = ExtResource("3_0xsqp")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/scissor_value = 0.478
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/outline_size = 0.042
+shader_parameter/offset_fres = 0.3
+shader_parameter/fps = 60.0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_kyd0e"]
+operator = 7
+
+[sub_resource type="VisualShader" id="VisualShader_mei3m"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+
+
+"
+graph_offset = Vector2(-452.815, 321.591)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatOp_kyd0e")
+nodes/fragment/3/position = Vector2(80, 460)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tuk3l"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_2l8gk")
+shader = SubResource("VisualShader_mei3m")
+
+[sub_resource type="Resource" id="Resource_5d6jw"]
+script = ExtResource("8_ohgup")
+duration = 1.0
+transition = 0
+ease = 0
+
+[sub_resource type="Resource" id="Resource_8fpgi"]
+script = ExtResource("9_vhawd")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 75.0
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ej8a"]
+atlas = ExtResource("6_pthky")
+region = Rect2(0, 0, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqeq2"]
+atlas = ExtResource("6_pthky")
+region = Rect2(90, 0, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_moxkq"]
+atlas = ExtResource("6_pthky")
+region = Rect2(180, 0, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m66nd"]
+atlas = ExtResource("6_pthky")
+region = Rect2(270, 0, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_huug2"]
+atlas = ExtResource("6_pthky")
+region = Rect2(360, 0, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n05ek"]
+atlas = ExtResource("6_pthky")
+region = Rect2(450, 0, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_088th"]
+atlas = ExtResource("6_pthky")
+region = Rect2(0, 90, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qj0i"]
+atlas = ExtResource("6_pthky")
+region = Rect2(90, 90, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1r2o7"]
+atlas = ExtResource("6_pthky")
+region = Rect2(180, 90, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilbcj"]
+atlas = ExtResource("6_pthky")
+region = Rect2(270, 90, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epwrc"]
+atlas = ExtResource("6_pthky")
+region = Rect2(360, 90, 90, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_035m3"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(0, 0, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcn8x"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(155, 0, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rntgu"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(310, 0, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_irlqb"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(465, 0, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kf48i"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(620, 0, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1v41"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(775, 0, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvgsa"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(930, 0, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3reu"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(1085, 0, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xvfeo"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(0, 95, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_io7k1"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(155, 95, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cf7d5"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(310, 95, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e82uj"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(465, 95, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpcup"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(620, 95, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5do3b"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(775, 95, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhaxu"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(930, 95, 155, 95)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suldu"]
+atlas = ExtResource("7_hmdrd")
+region = Rect2(1085, 95, 155, 95)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uusn4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ej8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqeq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_moxkq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m66nd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_huug2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n05ek")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_088th")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qj0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1r2o7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ilbcj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epwrc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_035m3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcn8x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rntgu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_irlqb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kf48i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1v41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bvgsa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3reu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xvfeo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_io7k1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cf7d5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e82uj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hpcup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5do3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhaxu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suldu")
+}],
+"loop": true,
+"name": &"dust",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_ew5mw"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_5tfji"]
+resource_name = "new_animation"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PhantomCamera3D2")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [10],
+"method": &"set_priority"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PhantomCamera3D2:follow_target")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(0.203063, 1),
+"update": 0,
+"values": [Object(Node3D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","transform":Transform3D(-8, 0, 6.99382e-07, 0, 8, 0, -6.99382e-07, 0, -8, 0, 0, -8.72669),"rotation_edit_mode":0,"rotation_order":2,"top_level":false,"visible":true,"visibility_parent":NodePath(""),"script":null)
+, null]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_klfyr"]
+_data = {
+"RESET": SubResource("Animation_ew5mw"),
+"new_animation": SubResource("Animation_5tfji")
+}
+
+[sub_resource type="Skin" id="Skin_2x52v"]
+resource_name = "Skin"
+bind_count = 25
+bind/0/name = &"mixamorig_Hips"
+bind/0/bone = -1
+bind/0/pose = Transform3D(10, 0, 0, 0, 10, -7.54979e-07, 0, 7.54979e-07, 10, 2.97919e-16, -0.51899, 0.00874441)
+bind/1/name = &"mixamorig_Spine"
+bind/1/bone = -1
+bind/1/pose = Transform3D(10, 5.25054e-15, -4.65289e-22, -5.22776e-15, 9.95662, 0.930448, 4.88536e-16, -0.930448, 9.95662, 2.54216e-17, -0.661301, 0.0569959)
+bind/2/name = &"mixamorig_Spine1"
+bind/2/bone = -1
+bind/2/pose = Transform3D(10, 5.25053e-15, -5.16988e-22, -5.22776e-15, 9.95662, 0.930449, 4.88536e-16, -0.930449, 9.95662, 2.54216e-17, -0.830908, 0.0569959)
+bind/3/name = &"mixamorig_Spine2"
+bind/3/bone = -1
+bind/3/pose = Transform3D(10, 5.25053e-15, -6.20385e-22, -5.22776e-15, 9.95662, 0.930449, 4.88536e-16, -0.930449, 9.95662, 2.54215e-17, -1.02474, 0.0569959)
+bind/4/name = &"mixamorig_Neck"
+bind/4/bone = -1
+bind/4/pose = Transform3D(10, 3.26736e-22, -2.71023e-29, 1.38139e-21, 10, -8.29485e-07, 6.61744e-23, 7.54979e-07, 10, 6.77916e-16, -1.24272, -0.0588884)
+bind/5/name = &"mixamorig_Head"
+bind/5/bone = -1
+bind/5/pose = Transform3D(10, 6.368e-25, -7.08606e-32, 1.70749e-21, 10, -8.29485e-07, 6.61744e-23, 7.54979e-07, 10, 7.65108e-16, -1.39155, -0.052417)
+bind/6/name = &"mixamorig_HeadTop_End"
+bind/6/bone = -1
+bind/6/pose = Transform3D(-10, -1.19664e-13, -1.50996e-06, -5.66554e-15, 10, -8.29485e-07, 1.50996e-06, -7.54979e-07, -10, 2.59031e-09, -2.20249, 0.0171548)
+bind/7/name = &"mixamorig_LeftShoulder"
+bind/7/bone = -1
+bind/7/pose = Transform3D(-0.0656567, -0.930534, 9.95639, -9.99853, -0.151149, -0.0800629, 0.15794, -9.95546, -0.929406, 0.0570055, -0.138212, 1.24257)
+bind/8/name = &"mixamorig_LeftArm"
+bind/8/bone = -1
+bind/8/pose = Transform3D(2.67778, -0.853453, 9.59693, -9.61581, -0.861937, 2.60639, 0.604752, -9.92616, -1.05147, 0.179475, -0.363566, 1.26079)
+bind/9/name = &"mixamorig_LeftForeArm"
+bind/9/bone = -1
+bind/9/pose = Transform3D(-0.934726, -1.10509, 9.8947, -9.91153, -0.837215, -1.02982, 0.942204, -9.90343, -1.01705, -0.0438339, -0.573676, 1.28103)
+bind/10/name = &"mixamorig_LeftHand"
+bind/10/bone = -1
+bind/10/pose = Transform3D(-0.93473, -1.10509, 9.8947, -9.91153, -0.837211, -1.02983, 0.942199, -9.90343, -1.01705, -0.0438343, -0.813446, 1.28103)
+bind/11/name = &"mixamorig_RightShoulder"
+bind/11/bone = -1
+bind/11/pose = Transform3D(0.0937952, 0.93109, -9.95612, 9.99854, -0.151134, 0.0800608, -0.143016, -9.95541, -0.932371, -0.0570636, -0.139156, 1.24258)
+bind/12/name = &"mixamorig_RightArm"
+bind/12/bone = -1
+bind/12/pose = Transform3D(0.357212, 0.926783, -9.95055, 9.95632, -0.892438, 0.274298, -0.862604, -9.91689, -0.954613, -0.0690498, -0.363296, 1.27206)
+bind/13/name = &"mixamorig_RightForeArm"
+bind/13/bone = -1
+bind/13/pose = Transform3D(1.01099, 0.866108, -9.91099, 9.92052, -0.837959, 0.93873, -0.749196, -9.92712, -0.943941, -0.107278, -0.592461, 1.26537)
+bind/14/name = &"mixamorig_RightHand"
+bind/14/bone = -1
+bind/14/pose = Transform3D(1.01099, 0.866107, -9.91099, 9.92052, -0.837959, 0.938729, -0.749196, -9.92712, -0.943939, -0.107277, -0.832014, 1.26537)
+bind/15/name = &"mixamorig_LeftUpLeg"
+bind/15/bone = -1
+bind/15/pose = Transform3D(-9.88739, 1.49585, -0.0128553, -1.49591, -9.88712, 0.0848438, -2.89299e-05, 0.0858129, 9.99963, -0.296633, 0.398809, 0.00943761)
+bind/16/name = &"mixamorig_LeftLeg"
+bind/16/bone = -1
+bind/16/pose = Transform3D(-9.97754, -0.668547, 0.00573404, 0.653638, -9.7367, 2.18389, -0.140426, 2.17938, 9.75862, -0.255389, 0.21643, -0.0368395)
+bind/17/name = &"mixamorig_LeftFoot"
+bind/17/bone = -1
+bind/17/pose = Transform3D(9.67639, 0.0840366, -2.52167, -2.51716, -0.360485, -9.67129, -0.172162, 9.99315, -0.327667, 0.256252, -0.0356888, -0.0247513)
+bind/18/name = &"mixamorig_LeftToeBase"
+bind/18/bone = -1
+bind/18/pose = Transform3D(9.35201, 0.0450207, -3.54069, -3.53955, 0.398652, -9.34411, 0.0990945, 9.99195, 0.38876, 0.240816, -0.158793, -0.0126324)
+bind/19/name = &"mixamorig_LeftToe_End"
+bind/19/bone = -1
+bind/19/pose = Transform3D(9.35201, 0.045014, -3.54068, -3.53954, 0.398654, -9.34411, 0.099101, 9.99195, 0.388759, 0.240816, -0.252723, -0.0126322)
+bind/20/name = &"mixamorig_RightUpLeg"
+bind/20/bone = -1
+bind/20/pose = Transform3D(-9.88801, -1.48887, 0.10343, 1.49246, -9.86423, 0.685234, -8.6584e-06, 0.692996, 9.97596, 0.296494, 0.398895, -0.0140779)
+bind/21/name = &"mixamorig_RightLeg"
+bind/21/bone = -1
+bind/21/pose = Transform3D(-9.97879, 0.649586, -0.0451214, -0.611617, -9.11252, 4.07283, 0.223438, 4.06694, 9.13291, 0.255812, 0.200228, -0.0881389)
+bind/22/name = &"mixamorig_RightFoot"
+bind/22/bone = -1
+bind/22/pose = Transform3D(9.85864, 0.0861854, 1.67329, 1.67499, -0.253391, -9.85547, -0.0425396, 9.99642, -0.264246, -0.26743, 0.0369338, -0.0181925)
+bind/23/name = &"mixamorig_RightToeBase"
+bind/23/bone = -1
+bind/23/pose = Transform3D(9.18612, 0.143479, 3.94902, 3.93981, 0.440323, -9.18064, -0.305608, 9.98927, 0.347957, -0.234984, -0.166592, -0.00711332)
+bind/24/name = &"mixamorig_RightToe_End"
+bind/24/bone = -1
+bind/24/pose = Transform3D(9.18612, 0.14348, 3.94902, 3.9398, 0.440323, -9.18064, -0.305609, 9.98927, 0.347956, -0.234985, -0.25095, -0.0071133)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yreki"]
+_data = {
+"Idle_01": ExtResource("9_0cdoe"),
+"Idle_02": ExtResource("10_87nd6"),
+"Rollup": ExtResource("11_xgb1m"),
+"Running": ExtResource("12_c1wh6")
+}
+
+[node name="Node" type="Node"]
+script = ExtResource("1_vgx4h")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46741, 0, 6.03799)
+mesh = SubResource("CylinderMesh_oitjt")
+surface_material_override/0 = ExtResource("1_glcsh")
+script = ExtResource("3_bex6q")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0.704002, 23.3143)
+mesh = SubResource("CapsuleMesh_pfp5d")
+surface_material_override/0 = SubResource("ShaderMaterial_tuk3l")
+script = ExtResource("3_bex6q")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.45677, 0, 5.64877)
+mesh = ExtResource("4_f7v55")
+surface_material_override/0 = SubResource("ShaderMaterial_tuk3l")
+script = ExtResource("3_bex6q")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.64877)
+mesh = ExtResource("5_00yls")
+surface_material_override/0 = SubResource("ShaderMaterial_tuk3l")
+script = ExtResource("3_bex6q")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.216593, 0, -0.976262, 0, 1, 0, 0.976262, 0, -0.216593, -3.27726, 1.53491, -8.49942)
+current = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D"]
+script = ExtResource("6_o0pe8")
+
+[node name="PhantomCamera3D" type="Node3D" parent="." node_paths=PackedStringArray("look_at_target")]
+transform = Transform3D(-0.216593, 0, -0.976262, 0, 1, 0, 0.976262, 0, -0.216593, -3.27726, 1.53491, -8.49942)
+script = ExtResource("7_ji3kg")
+follow_mode = 2
+look_at_target = NodePath("../bob_anim2")
+tween_resource = SubResource("Resource_5d6jw")
+camera_3d_resource = SubResource("Resource_8fpgi")
+
+[node name="PhantomCamera3D2" type="Node3D" parent="." node_paths=PackedStringArray("look_at_target")]
+transform = Transform3D(1, 0, 0, 0, 0.932292, 0.361706, 0, -0.361706, 0.932292, 0, 3.25257, -4.03871)
+script = ExtResource("7_ji3kg")
+follow_mode = 2
+look_at_target = NodePath("../bob_anim2")
+tween_resource = SubResource("Resource_5d6jw")
+camera_3d_resource = SubResource("Resource_8fpgi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.506831, -0.411346, 0.757573, -0.862045, -0.241847, 0.445408, -1.25586e-08, -0.878809, -0.477174, -0.21637, -0.60349, 5.52287)
+light_energy = 1.13
+light_angular_distance = 90.0
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 3.34618, -8.18843)
+modulate = Color(0.973041, 1, 0.684762, 1)
+billboard = 1
+shaded = true
+double_sided = false
+no_depth_test = true
+alpha_antialiasing_mode = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_uusn4")
+frame_progress = 0.101022
+speed_scale = 4.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_klfyr")
+}
+
+[node name="bob_anim2" type="Node3D" parent="."]
+transform = Transform3D(-8, 0, 6.99382e-07, 0, 8, 0, -6.99382e-07, 0, -8, 0, 0, -8.72669)
+
+[node name="Armature" type="Node3D" parent="bob_anim2"]
+transform = Transform3D(0.1, 0, 0, 0, 0, -0.1, 0, 0.1, 0, 0, 0, 0)
+
+[node name="Skeleton3D" type="Skeleton3D" parent="bob_anim2/Armature"]
+bones/0/name = "mixamorig_Hips"
+bones/0/parent = -1
+bones/0/rest = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, -2.97919e-16, -0.00874441, -0.51899)
+bones/0/enabled = true
+bones/0/position = Vector3(0.0251186, -0.0255135, -0.417598)
+bones/0/rotation = Quaternion(-0.251355, 0.630908, -0.683819, 0.266771)
+bones/0/scale = Vector3(1, 1, 1)
+bones/1/name = "mixamorig_Spine"
+bones/1/parent = 0
+bones/1/rest = Transform3D(1, -5.22776e-16, 4.88536e-17, 5.25053e-16, 0.995662, -0.0930449, -9.92617e-24, 0.0930449, 0.995662, -7.59994e-17, 0.144746, 0.0135266)
+bones/1/enabled = true
+bones/1/position = Vector3(-7.59994e-17, 0.144746, 0.0135266)
+bones/1/rotation = Quaternion(-0.00397032, 0.0399229, 0.00929208, 0.999152)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/name = "mixamorig_Spine1"
+bones/2/parent = 1
+bones/2/rest = Transform3D(1, 1.59238e-22, -5.43981e-24, -1.59238e-22, 1, -6.33299e-08, 5.4398e-24, 6.33299e-08, 1, -2.61114e-24, 0.169606, -1.86265e-09)
+bones/2/enabled = true
+bones/2/position = Vector3(-2.61114e-24, 0.169606, -1.86265e-09)
+bones/2/rotation = Quaternion(-0.100634, 0.0823921, 0.0109331, 0.991446)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/name = "mixamorig_Spine2"
+bones/3/parent = 2
+bones/3/rest = Transform3D(1, -1.31872e-22, 1.66881e-23, 1.31872e-22, 1, 1.86265e-08, -1.66881e-23, -1.86265e-08, 1, -1.3576e-23, 0.193836, -3.72529e-09)
+bones/3/enabled = true
+bones/3/position = Vector3(-1.3576e-23, 0.193836, -3.72529e-09)
+bones/3/rotation = Quaternion(-0.100635, 0.082392, 0.0109331, 0.991446)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/name = "mixamorig_Neck"
+bones/4/parent = 3
+bones/4/rest = Transform3D(1, 5.25054e-16, -2.15067e-23, -5.22776e-16, 0.995662, 0.093045, 4.88536e-17, -0.093045, 0.995662, -1.90596e-22, 0.218065, 0)
+bones/4/enabled = true
+bones/4/position = Vector3(-1.90596e-22, 0.218065, 0)
+bones/4/rotation = Quaternion(-0.00901751, -0.0111887, -0.00166116, 0.999895)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/name = "mixamorig_Head"
+bones/5/parent = 4
+bones/5/rest = Transform3D(1, 3.261e-23, 1.35615e-31, -3.261e-23, 1, 0, -1.35615e-31, 0, 1, -8.7192e-17, 0.148827, -0.00647142)
+bones/5/enabled = true
+bones/5/position = Vector3(-8.7192e-17, 0.148827, -0.00647142)
+bones/5/rotation = Quaternion(0.054469, 0.176923, 0.0129705, 0.982631)
+bones/5/scale = Vector3(1, 1, 1)
+bones/6/name = "mixamorig_HeadTop_End"
+bones/6/parent = 5
+bones/6/rest = Transform3D(-1, -5.66554e-16, 1.50996e-07, -5.66554e-16, 1, 4.27737e-23, -1.50996e-07, -4.27737e-23, -1, -4.75102e-16, 0.810942, -0.0352622)
+bones/6/enabled = true
+bones/6/position = Vector3(-4.75102e-16, 0.810942, -0.0352622)
+bones/6/rotation = Quaternion(-2.83277e-16, 1, 0, 7.54979e-08)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/name = "mixamorig_LeftShoulder"
+bones/7/parent = 3
+bones/7/rest = Transform3D(-0.00656581, -0.999854, 0.0157941, -1.04606e-05, -0.0157944, -0.999875, 0.999979, -0.0065651, 9.32217e-05, -0.157442, 0.215485, -0.00103143)
+bones/7/enabled = true
+bones/7/position = Vector3(-0.157442, 0.215485, -0.00103143)
+bones/7/rotation = Quaternion(0.51443, -0.472048, 0.531851, 0.479236)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/name = "mixamorig_LeftArm"
+bones/8/parent = 7
+bones/8/rest = Transform3D(0.961692, 0.273837, -0.0127194, -0.274132, 0.960656, -0.0446212, 8.61473e-08, 0.0463987, 0.998923, 1.25729e-08, 0.316508, 1.56462e-07)
+bones/8/enabled = true
+bones/8/position = Vector3(1.25729e-08, 0.316508, 1.56462e-07)
+bones/8/rotation = Quaternion(0.451348, -0.135399, -0.0200075, 0.881789)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/name = "mixamorig_LeftForeArm"
+bones/9/parent = 8
+bones/9/rest = Transform3D(0.933989, -0.357095, 0.0121453, 0.357302, 0.933449, -0.0317476, -1.19209e-07, 0.0339915, 0.999422, -3.72529e-08, 0.228264, 1.86265e-09)
+bones/9/enabled = true
+bones/9/position = Vector3(-3.72529e-08, 0.228264, 1.86265e-09)
+bones/9/rotation = Quaternion(0.0317983, -0.0162452, 0.408004, 0.912282)
+bones/9/scale = Vector3(1, 1, 1)
+bones/10/name = "mixamorig_LeftHand"
+bones/10/parent = 9
+bones/10/rest = Transform3D(1, -3.79048e-07, 1.09896e-07, 3.79048e-07, 1, 4.2608e-07, -1.09896e-07, -4.2608e-07, 1, -7.45058e-09, 0.23977, -4.65661e-08)
+bones/10/enabled = true
+bones/10/position = Vector3(-7.45058e-09, 0.23977, -4.65661e-08)
+bones/10/rotation = Quaternion(-2.1304e-07, 5.4948e-08, 1.89524e-07, 1)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/name = "mixamorig_RightShoulder"
+bones/11/parent = 3
+bones/11/rest = Transform3D(0.00937939, 0.999854, -0.0143016, 6.85453e-05, -0.014303, -0.999898, -0.999956, 0.00937754, -0.000202656, 0.157442, 0.215721, 0.00149156)
+bones/11/enabled = true
+bones/11/position = Vector3(0.157442, 0.215721, 0.00149156)
+bones/11/rotation = Quaternion(0.488405, 0.488616, -0.577384, 0.435135)
+bones/11/scale = Vector3(1, 1, 1)
+bones/12/name = "mixamorig_RightArm"
+bones/12/parent = 11
+bones/12/rest = Transform3D(0.999653, -0.0262803, 0.00189825, 0.0263488, 0.997055, -0.0720242, 1.65543e-07, 0.0720492, 0.997401, -2.70084e-08, 0.316508, 1.53203e-07)
+bones/12/enabled = true
+bones/12/position = Vector3(-2.70084e-08, 0.316508, 1.53203e-07)
+bones/12/rotation = Quaternion(0.398183, 0.0769444, 0.235722, 0.883156)
+bones/12/scale = Vector3(1, 1, 1)
+bones/13/name = "mixamorig_RightForeArm"
+bones/13/parent = 12
+bones/13/rest = Transform3D(0.997837, -0.0657376, -0.000751737, 0.0657419, 0.997771, 0.0114118, -1.25554e-07, -0.0114366, 0.999934, -9.31323e-09, 0.220457, -1.53668e-08)
+bones/13/enabled = true
+bones/13/position = Vector3(-9.31323e-09, 0.220457, -1.53668e-08)
+bones/13/rotation = Quaternion(0.0783911, 0.0943858, -0.340505, 0.932203)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/name = "mixamorig_RightHand"
+bones/14/parent = 13
+bones/14/rest = Transform3D(1, 9.0804e-08, -1.07801e-07, -9.0804e-08, 1, 1.30385e-08, 1.07801e-07, -1.30385e-08, 1, -7.45058e-09, 0.239553, -4.09782e-08)
+bones/14/enabled = true
+bones/14/position = Vector3(-7.45058e-09, 0.239553, -4.09782e-08)
+bones/14/rotation = Quaternion(-6.51926e-09, -5.39003e-08, -4.5402e-08, 1)
+bones/14/scale = Vector3(1, 1, 1)
+bones/15/name = "mixamorig_LeftUpLeg"
+bones/15/parent = 0
+bones/15/rest = Transform3D(-0.988757, -0.149592, -2.38529e-06, 0.149587, -0.988712, 0.00858114, -0.00128604, 0.00848423, 0.999963, -0.233639, -0.0803915, -0.00445807)
+bones/15/enabled = true
+bones/15/position = Vector3(-0.233639, -0.0803915, -0.00445807)
+bones/15/rotation = Quaternion(0.0623126, -0.381225, 0.899541, 0.203987)
+bones/15/scale = Vector3(1.00001, 1, 1)
+bones/16/name = "mixamorig_LeftLeg"
+bones/16/parent = 15
+bones/16/rest = Transform3D(0.976534, -0.210558, 0.0452298, 0.215361, 0.954754, -0.205097, 1.56462e-06, 0.210025, 0.977696, 4.99158e-08, 0.239616, -1.93268e-11)
+bones/16/enabled = true
+bones/16/position = Vector3(4.99158e-08, 0.239616, -1.93268e-11)
+bones/16/rotation = Quaternion(0.46493, 0.127584, 0.136463, 0.865413)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/name = "mixamorig_LeftFoot"
+bones/17/parent = 16
+bones/17/rest = Transform3D(-0.966188, 0.253011, -0.0496485, -1.78814e-06, -0.192564, -0.981284, -0.257837, -0.948106, 0.186054, -5.32782e-09, 0.18527, -1.86265e-09)
+bones/17/enabled = true
+bones/17/position = Vector3(-5.32782e-09, 0.18527, -1.86265e-09)
+bones/17/rotation = Quaternion(-0.0241276, -0.668147, 0.727383, -0.154637)
+bones/17/scale = Vector3(1, 1, 1)
+bones/18/name = "mixamorig_LeftToeBase"
+bones/18/parent = 17
+bones/18/rest = Transform3D(0.994274, -0.106545, 0.00818138, 0.106858, 0.991357, -0.0761115, -1.4035e-06, 0.07655, 0.997066, -2.93803e-08, 0.0950372, -2.32831e-10)
+bones/18/enabled = true
+bones/18/position = Vector3(-2.93803e-08, 0.0950372, -2.32831e-10)
+bones/18/rotation = Quaternion(0.059844, 0.00301183, 0.0254131, 0.99788)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/name = "mixamorig_LeftToe_End"
+bones/19/parent = 18
+bones/19/rest = Transform3D(1, 7.09078e-07, 6.38654e-07, -7.09078e-07, 1, -1.45403e-07, -6.38655e-07, 1.45403e-07, 1, 1.14087e-08, 0.0939298, 6.98492e-10)
+bones/19/enabled = true
+bones/19/position = Vector3(1.14087e-08, 0.0939298, 6.98492e-10)
+bones/19/rotation = Quaternion(7.27014e-08, 3.19327e-07, -3.54539e-07, 1)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/name = "mixamorig_RightUpLeg"
+bones/20/parent = 0
+bones/20/rest = Transform3D(-0.988799, 0.149246, -2.81725e-07, -0.148887, -0.986423, 0.0692995, 0.0103424, 0.0685234, 0.997595, 0.233639, -0.0803915, -0.0076115)
+bones/20/enabled = true
+bones/20/position = Vector3(0.233639, -0.0803915, -0.0076115)
+bones/20/rotation = Quaternion(-0.0800514, 0.0995435, 0.956343, -0.262851)
+bones/20/scale = Vector3(0.999999, 1, 1)
+bones/21/name = "mixamorig_RightLeg"
+bones/21/parent = 20
+bones/21/rest = Transform3D(0.976983, 0.200363, -0.0732, -0.213315, 0.91766, -0.335256, 1.49012e-08, 0.343154, 0.939279, 5.89534e-08, 0.240172, -1.74386e-09)
+bones/21/enabled = true
+bones/21/position = Vector3(5.89534e-08, 0.240172, -1.74386e-09)
+bones/21/rotation = Quaternion(0.447757, 0.0192951, -0.117876, 0.886141)
+bones/21/scale = Vector3(1, 1, 1)
+bones/22/name = "mixamorig_RightFoot"
+bones/22/parent = 21
+bones/22/rest = Transform3D(-0.983966, -0.164341, 0.0692995, 1.71363e-07, -0.38855, -0.921427, 0.178354, -0.906654, 0.38232, 1.18453e-08, 0.197816, 9.77889e-09)
+bones/22/enabled = true
+bones/22/position = Vector3(1.18453e-08, 0.197816, 9.77889e-09)
+bones/22/rotation = Quaternion(-0.106422, -0.335761, 0.912725, 0.207057)
+bones/22/scale = Vector3(1, 1, 1)
+bones/23/name = "mixamorig_RightToeBase"
+bones/23/parent = 22
+bones/23/rest = Transform3D(0.971827, 0.23517, -0.0156971, -0.235693, 0.96967, -0.0647236, -7.54371e-08, 0.0665999, 0.99778, 1.46538e-08, 0.142628, -2.14204e-08)
+bones/23/enabled = true
+bones/23/position = Vector3(1.46538e-08, 0.142628, -2.14204e-08)
+bones/23/rotation = Quaternion(0.0471655, 0.00324562, -0.121941, 0.991411)
+bones/23/scale = Vector3(1, 1, 1)
+bones/24/name = "mixamorig_RightToe_End"
+bones/24/parent = 23
+bones/24/rest = Transform3D(1, -1.9779e-07, -1.13156e-07, 1.9779e-07, 1, 9.31321e-09, 1.13156e-07, -9.31324e-09, 1, -9.22591e-09, 0.0843583, -9.31323e-10)
+bones/24/enabled = true
+bones/24/position = Vector3(-9.22591e-09, 0.0843583, -9.31323e-10)
+bones/24/rotation = Quaternion(-4.65661e-09, -5.65778e-08, 9.88948e-08, 1)
+bones/24/scale = Vector3(1, 1, 1)
+
+[node name="Bob" type="MeshInstance3D" parent="bob_anim2/Armature/Skeleton3D"]
+mesh = ExtResource("8_qw1eo")
+skin = SubResource("Skin_2x52v")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="bob_anim2"]
+libraries = {
+"": SubResource("AnimationLibrary_yreki")
+}
+
+[node name="AnimSpritePlayer" type="AnimatedSprite3D" parent="bob_anim2"]
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, -2.5007e-08, 0.152892, -0.286046)
+axis = 0
+sprite_frames = SubResource("SpriteFrames_uusn4")
+animation = &"dust"
+speed_scale = 8.0
