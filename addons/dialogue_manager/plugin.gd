@@ -52,13 +52,15 @@ func _enter_tree() -> void:
 		add_tool_menu_item("Create copy of dialogue example balloon...", _copy_dialogue_balloon)
 
 		# Prevent the project from showing as unsaved even though it was only just opened
-		if DialogueSettings.get_setting("try_suppressing_startup_unsaved_indicator", false) and Engine.get_physics_frames() == 0:
+		if DialogueSettings.get_setting("try_suppressing_startup_unsaved_indicator", false) \
+			and Engine.get_physics_frames() == 0 \
+			and get_editor_interface().has_method("save_all_scenes"):
 			var timer: Timer = Timer.new()
 			var suppress_unsaved_marker: Callable
 			suppress_unsaved_marker = func():
 				if Engine.get_frames_per_second() >= 10:
 					timer.stop()
-					get_editor_interface().save_all_scenes()
+					get_editor_interface().call("save_all_scenes")
 					timer.queue_free()
 			timer.timeout.connect(suppress_unsaved_marker)
 			add_child(timer)
@@ -332,6 +334,8 @@ func _copy_dialogue_balloon() -> void:
 		file_contents = file.get_as_text()
 		if is_dotnet:
 			file_contents = file_contents.replace("class ExampleBalloon", "class DialogueBalloon")
+		else:
+			file_contents = file_contents.replace("class_name DialogueManagerExampleBalloon ", "")
 		file = FileAccess.open(balloon_script_path, FileAccess.WRITE)
 		file.store_string(file_contents)
 		file.close()
@@ -359,3 +363,4 @@ func _on_file_removed(file: String) -> void:
 	update_import_paths(file, "")
 	if is_instance_valid(main_view):
 		main_view.close_file(file)
+	_update_localization()

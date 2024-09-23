@@ -73,6 +73,7 @@ var pcam_host: PhantomCameraHost
 
 #endregion
 
+
 #region Private Functions
 
 func _ready() -> void:
@@ -451,6 +452,7 @@ func _select_override_pcam() -> void:
 	EditorInterface.get_selection().add_node(_active_pcam)
 
 #endregion
+
 
 #region Public Functions
 

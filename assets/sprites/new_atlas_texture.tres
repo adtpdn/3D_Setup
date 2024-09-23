@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cy70e14fmdci3"]
+
+[ext_resource type="Texture2D" uid="uid://byy25cy3q4bm7" path="res://assets/sprites/iceberg.png" id="1_hvl1w"]
+
+[resource]
+atlas = ExtResource("1_hvl1w")
+region = Rect2(1710, 0, 342, 864)

@@ -7,7 +7,7 @@ extends CanvasLayer
 @export var skip_action: StringName = &"ui_cancel"
 
 @onready var balloon: Control = %Balloon
-@onready var animated_bg: AnimatedSprite2D = %Balloon/Panel
+@onready var animated_bg: Sprite2D = %Balloon/Panel
 @onready var character_label: RichTextLabel = %CharacterLabel
 @onready var dialogue_label: DialogueLabel = %DialogueLabel
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
@@ -80,7 +80,7 @@ var dialogue_line: DialogueLine:
 
 func _ready() -> void:
 	
-	animated_bg.play("default")
+	#animated_bg.play("default")
 	
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)

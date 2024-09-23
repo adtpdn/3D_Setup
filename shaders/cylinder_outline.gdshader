@@ -13,10 +13,10 @@ void fragment() {
     } else {
         base_color = vec4(1.0);  // White if no texture
     }
-    
+
     // Mix the base color with the highlight color
     ALBEDO = mix(base_color.rgb, highlight_color.rgb, highlight_intensity);
-    
+
     // Keep the original alpha
     ALPHA = base_color.a;
 }

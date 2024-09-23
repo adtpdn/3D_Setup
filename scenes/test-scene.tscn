@@ -1,0 +1,60 @@
+[gd_scene load_steps=16 format=3 uid="uid://4w5uvrndjfej"]
+
+[ext_resource type="Script" path="res://scenes/characters.gd" id="1_bi2uk"]
+[ext_resource type="PackedScene" uid="uid://bdh8e437srhm4" path="res://assets/characters/Bob.glb" id="10_6jwr4"]
+[ext_resource type="PackedScene" uid="uid://cggexvn5ca74r" path="res://assets/characters/Gatot.glb" id="10_7fj5n"]
+[ext_resource type="Animation" uid="uid://b6wcicsqfamai" path="res://assets/characters/animations/backflip_1.res" id="11_nmibi"]
+[ext_resource type="PackedScene" uid="uid://rya8jt6nijhf" path="res://assets/characters/Oldpop.glb" id="11_xxscc"]
+[ext_resource type="Animation" uid="uid://cq4gjuk4hr0l5" path="res://assets/characters/animations/drop_tile_1.res" id="12_fnss0"]
+[ext_resource type="PackedScene" uid="uid://dt5tbrtsk36n1" path="res://assets/characters/Masbro.glb" id="13_b68y0"]
+[ext_resource type="Animation" uid="uid://dmq1sf3kcoo7u" path="res://assets/characters/animations/drop_tile_2.res" id="13_n56cc"]
+[ext_resource type="Animation" uid="uid://cw27lxx05cbco" path="res://assets/characters/animations/idle.res" id="14_818js"]
+[ext_resource type="Animation" uid="uid://bpoyxs4thy6ku" path="res://assets/characters/animations/spawn_tile_1.res" id="15_r1cg3"]
+[ext_resource type="Animation" uid="uid://doh7sbiak6qwg" path="res://assets/characters/animations/take_tile_1.res" id="16_8qf0p"]
+[ext_resource type="Animation" uid="uid://bp4nldmm2vx1u" path="res://assets/characters/animations/take_tile_2.res" id="17_xx8uw"]
+[ext_resource type="Animation" uid="uid://dd63iav2hjtd4" path="res://assets/characters/animations/walk_forward.res" id="18_h0xbl"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6cnrn"]
+radius = 0.3
+height = 1.3
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xvdse"]
+_data = {
+"backflip_1": ExtResource("11_nmibi"),
+"drop_tile_1": ExtResource("12_fnss0"),
+"drop_tile_2": ExtResource("13_n56cc"),
+"idle": ExtResource("14_818js"),
+"spawn_tile_1": ExtResource("15_r1cg3"),
+"take_tile_1": ExtResource("16_8qf0p"),
+"take_tile_2": ExtResource("17_xx8uw"),
+"walk_forward": ExtResource("18_h0xbl")
+}
+
+[node name="Test-scene" type="Node"]
+
+[node name="Characters" type="CharacterBody3D" parent="."]
+script = ExtResource("1_bi2uk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Characters"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64963, 0)
+shape = SubResource("CapsuleShape3D_6cnrn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Characters"]
+root_node = NodePath("../Masbro")
+libraries = {
+"animation-pack": SubResource("AnimationLibrary_xvdse")
+}
+
+[node name="Gatot" parent="Characters" instance=ExtResource("10_7fj5n")]
+visible = false
+
+[node name="Oldpop" parent="Characters" instance=ExtResource("11_xxscc")]
+visible = false
+
+[node name="Bob" parent="Characters" instance=ExtResource("10_6jwr4")]
+visible = false
+
+[node name="Masbro" parent="Characters" instance=ExtResource("13_b68y0")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.778243, 0.627963, 0, -0.627963, 0.778243, 0, 2.315, 2.503)

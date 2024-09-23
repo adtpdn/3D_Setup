@@ -29,6 +29,9 @@ enum TranslationSource {
 }
 
 
+signal confirmation_closed()
+
+
 @onready var parse_timer := $ParseTimer
 
 # Dialogs
@@ -236,21 +239,7 @@ func new_file(path: String, content: String = "") -> void:
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	if content == "":
 		if DialogueSettings.get_setting("new_with_template", true):
-			file.store_string("\n".join([
-				"~ this_is_a_node_title",
-				"",
-				"Nathan: [[Hi|Hello|Howdy]], this is some dialogue.",
-				"Nathan: Here are some choices.",
-				"- First one",
-					"\tNathan: You picked the first one.",
-				"- Second one",
-					"\tNathan: You picked the second one.",
-				"- Start again => this_is_a_node_title",
-				"- End the conversation => END",
-				"Nathan: For more information see the online documentation.",
-				"",
-				"=> END"
-			]))
+			file.store_string(DialogueSettings.get_setting("new_template", ""))
 	else:
 		file.store_string(content)
 
@@ -263,6 +252,8 @@ func open_resource(resource: DialogueResource) -> void:
 
 
 func open_file(path: String) -> void:
+	if not FileAccess.file_exists(path): return
+
 	if not open_buffers.has(path):
 		var file: FileAccess = FileAccess.open(path, FileAccess.READ)
 		var text = file.get_as_text()
@@ -329,29 +320,32 @@ func save_file(path: String, rescan_file_system: bool = true) -> void:
 			.scan()
 
 
-func close_file(file: String) -> void:
-	if not file in open_buffers.keys(): return
+func close_file(path: String) -> void:
+	if not path in open_buffers.keys(): return
 
-	var buffer = open_buffers[file]
+	var buffer = open_buffers[path]
 
 	if buffer.text == buffer.pristine_text:
-		remove_file_from_open_buffers(file)
+		remove_file_from_open_buffers(path)
+		await get_tree().process_frame
 	else:
-		close_confirmation_dialog.dialog_text = DialogueConstants.translate(&"confirm_close").format({ path = file.get_file() })
+		close_confirmation_dialog.dialog_text = DialogueConstants.translate(&"confirm_close").format({ path = path.get_file() })
 		close_confirmation_dialog.popup_centered()
+		await confirmation_closed
 
 
-func remove_file_from_open_buffers(file: String) -> void:
-	if not file in open_buffers.keys(): return
+func remove_file_from_open_buffers(path: String) -> void:
+	if not path in open_buffers.keys(): return
 
-	var current_index = open_buffers.keys().find(file)
+	var current_index = open_buffers.keys().find(current_file_path)
 
-	open_buffers.erase(file)
+	open_buffers.erase(path)
 	if open_buffers.size() == 0:
 		self.current_file_path = ""
 	else:
 		current_index = clamp(current_index, 0, open_buffers.size() - 1)
 		self.current_file_path = open_buffers.keys()[current_index]
+
 	files_list.files = open_buffers.keys()
 
 
@@ -825,9 +819,10 @@ func _on_files_moved(old_file: String, new_file: String) -> void:
 func _on_cache_file_content_changed(path: String, new_content: String) -> void:
 	if open_buffers.has(path):
 		var buffer = open_buffers[path]
-		buffer.text = new_content
-		buffer.pristine_text = new_content
-		code_edit.text = new_content
+		if buffer.text != new_content:
+			buffer.text = new_content
+			buffer.pristine_text = new_content
+			code_edit.text = new_content
 
 
 func _on_editor_settings_changed() -> void:
@@ -1090,9 +1085,10 @@ func _on_files_popup_menu_id_pressed(id: int) -> void:
 			for path in open_buffers.keys():
 				close_file(path)
 		ITEM_CLOSE_OTHERS:
+			var current_current_file_path: String = current_file_path
 			for path in open_buffers.keys():
-				if path != current_file_path:
-					close_file(path)
+				if path != current_current_file_path:
+					await close_file(path)
 
 		ITEM_COPY_PATH:
 			DisplayServer.clipboard_set(current_file_path)
@@ -1111,12 +1107,14 @@ func _on_code_edit_external_file_requested(path: String, title: String) -> void:
 func _on_close_confirmation_dialog_confirmed() -> void:
 	save_file(current_file_path)
 	remove_file_from_open_buffers(current_file_path)
+	confirmation_closed.emit()
 
 
 func _on_close_confirmation_dialog_custom_action(action: StringName) -> void:
 	if action == "discard":
 		remove_file_from_open_buffers(current_file_path)
 	close_confirmation_dialog.hide()
+	confirmation_closed.emit()
 
 
 func _on_find_in_files_result_selected(path: String, cursor: Vector2, length: int) -> void:

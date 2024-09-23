@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn1rvqhe500i3"]
+
+[ext_resource type="FontFile" uid="uid://ccabxolpjyvh2" path="res://assets/bubbles/TektonDash2.ttf" id="1_iiu2a"]
+[ext_resource type="Texture2D" uid="uid://cqcr66kukah4g" path="res://assets/bubbles/bubble_bg.png" id="2_omy1u"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.496295, 0, 0.380125)
+top_level = true
+billboard = 1
+text = "HELLO BOYS"
+font = ExtResource("1_iiu2a")
+font_size = 44
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+texture = ExtResource("2_omy1u")

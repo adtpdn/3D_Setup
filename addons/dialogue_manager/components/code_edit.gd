@@ -11,7 +11,7 @@ const DialogueManagerParser = preload("./parser.gd")
 const DialogueSyntaxHighlighter = preload("./code_edit_syntax_highlighter.gd")
 
 
-# A link back to the owner MainView
+# A link back to the owner `MainView`
 var main_view
 
 # Theme overrides for syntax highlighting, etc
@@ -111,26 +111,34 @@ func _can_drop_data(at_position: Vector2, data) -> bool:
 	if typeof(data) != TYPE_DICTIONARY: return false
 	if data.type != "files": return false
 
-	var files: PackedStringArray = Array(data.files).filter(func(f): return f.get_extension() == "dialogue")
+	var files: PackedStringArray = Array(data.files)
 	return files.size() > 0
 
 
 func _drop_data(at_position: Vector2, data) -> void:
 	var replace_regex: RegEx = RegEx.create_from_string("[^a-zA-Z_0-9]+")
 
-	var files: PackedStringArray = Array(data.files).filter(func(f): return f.get_extension() == "dialogue")
+	var files: PackedStringArray = Array(data.files)
 	for file in files:
 		# Don't import the file into itself
 		if file == main_view.current_file_path: continue
 
-		var path = file.replace("res://", "").replace(".dialogue", "")
-		# Find the first non-import line in the file to add our import
-		var lines = text.split("\n")
-		for i in range(0, lines.size()):
-			if not lines[i].begins_with("import "):
-				insert_line_at(i, "import \"%s\" as %s\n" % [file, replace_regex.sub(path, "_", true)])
-				set_caret_line(i)
-				break
+		if file.get_extension() == "dialogue":
+			var path = file.replace("res://", "").replace(".dialogue", "")
+			# Find the first non-import line in the file to add our import
+			var lines = text.split("\n")
+			for i in range(0, lines.size()):
+				if not lines[i].begins_with("import "):
+					insert_line_at(i, "import \"%s\" as %s\n" % [file, replace_regex.sub(path, "_", true)])
+					set_caret_line(i)
+					break
+		else:
+			var cursor: Vector2 = get_line_column_at_pos(at_position)
+			if cursor.x > -1 and cursor.y > -1:
+				set_cursor(cursor)
+				remove_secondary_carets()
+				insert_text("\"%s\"" % file, cursor.y, cursor.x)
+	grab_focus()
 
 
 func _request_code_completion(force: bool) -> void:
@@ -205,8 +213,8 @@ func get_cursor() -> Vector2:
 
 # Set the caret from a Vector2
 func set_cursor(from_cursor: Vector2) -> void:
-	set_caret_line(from_cursor.y)
-	set_caret_column(from_cursor.x)
+	set_caret_line(from_cursor.y, false)
+	set_caret_column(from_cursor.x, false)
 
 
 # Check if a prompt is the start of a string without actually being that string
@@ -358,10 +366,13 @@ func toggle_comment() -> void:
 # Remove the current line
 func delete_current_line() -> void:
 	var cursor = get_cursor()
-	var lines: PackedStringArray = text.split("\n")
-	lines.remove_at(cursor.y)
-	text = "\n".join(lines)
-	set_cursor(cursor)
+	if get_line_count() == 1:
+		select_all()
+	elif cursor.y == 0:
+		select(0, 0, 1, 0)
+	else:
+		select(cursor.y - 1, get_line_width(cursor.y - 1), cursor.y, get_line_width(cursor.y))
+	delete_selection()
 	text_changed.emit()
 
 
@@ -380,7 +391,7 @@ func move_line(offset: int) -> void:
 
 	var lines := text.split("\n")
 
-	# We can't move the lines out of bounds
+	# Prevent the lines from being out of bounds
 	if from + offset < 0 or to + offset >= lines.size(): return
 
 	var target_from_index = from - 1 if offset == -1 else to + 1
